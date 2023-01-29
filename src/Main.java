@@ -1,18 +1,19 @@
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 public class Main {
     public static void main(String[] args) {
-        var future = CompletableFuture.supplyAsync(() -> 1);
-        future.thenAcceptAsync((result) -> {
-            System.out.println(Thread.currentThread().getName());
-            System.out.println(result);
+        var weather = CompletableFuture.supplyAsync(() ->{
+                System.out.println("Getting current weather");
+                throw new IllegalStateException();
         });
-
         try {
-            Thread.sleep(1);
+           var temperature =  weather.exceptionally(ex -> 1).get();
+            System.out.println(temperature);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
         }
-
     }
 }
