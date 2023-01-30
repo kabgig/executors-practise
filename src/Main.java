@@ -1,5 +1,4 @@
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
 public class Main {
 
@@ -8,23 +7,23 @@ public class Main {
 
         var quote1 = CompletableFuture.supplyAsync(() -> {
             System.out.println("Getting a quote from site 1");
-            LongTask.Simulate(3407);
+            LongTask.Simulate();
             return "Quote{site='site1', price=100}";
         });
         var quote2 = CompletableFuture.supplyAsync(() -> {
             System.out.println("Getting a quote from site 2");
-            LongTask.Simulate(1302);
+            LongTask.Simulate();
             return "Quote{site='site2', price=105}";
         });
         var quote3 = CompletableFuture.supplyAsync(() -> {
             System.out.println("Getting a quote from site 3");
-            LongTask.Simulate(2000);
+            LongTask.Simulate();
             return "Quote{site='site3', price=108}";
         });
 
-            quote1.thenAcceptAsync(m ->
-                    System.out.println(m)
-            );
+        quote1.thenAcceptAsync(m ->
+                System.out.println(m)
+        );
 
         quote2.thenAcceptAsync(m ->
                 System.out.println(m)
