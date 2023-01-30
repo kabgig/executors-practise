@@ -1,32 +1,24 @@
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 
 public class Main {
+
     public static void main(String[] args) {
-        var task = CompletableFuture.supplyAsync(() -> {
+        var quote1 = CompletableFuture.supplyAsync(() -> {
+            System.out.println("Getting a quote from site 1");
             LongTask.Simulate();
-            return 20;
+            return 108;
+        });
+        var quote2 = CompletableFuture.supplyAsync(() -> {
+            System.out.println("Getting a quote from site 2");
+            LongTask.Simulate();
+            return 109;
+        });
+        var quote3 = CompletableFuture.supplyAsync(() -> {
+            System.out.println("Getting a quote from site 3");
+            LongTask.Simulate();
+            return 105;
         });
 
-        Integer res = null;
-        try {
-            res = task.completeOnTimeout(7, 1, TimeUnit.MINUTES).get();
-            System.out.println(res);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        } catch (ExecutionException e) {
-            throw new RuntimeException(e);
-        }
-
-        try {
-            var res2 = task.orTimeout(1, TimeUnit.SECONDS).get();
-            System.out.println(res2);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        } catch (ExecutionException e) {
-            throw new RuntimeException(e);
-        }
 
     }
 }
