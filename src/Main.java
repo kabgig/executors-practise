@@ -8,7 +8,7 @@ public class Main {
 
         var quote1 = CompletableFuture.supplyAsync(() -> {
             System.out.println("Getting a quote from site 1");
-            LongTask.Simulate(2407);
+            LongTask.Simulate(3407);
             return "Quote{site='site1', price=100}";
         });
         var quote2 = CompletableFuture.supplyAsync(() -> {
@@ -33,5 +33,10 @@ public class Main {
                 System.out.println(m)
         );
 
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
