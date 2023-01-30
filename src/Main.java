@@ -4,6 +4,8 @@ import java.util.concurrent.ExecutionException;
 public class Main {
 
     public static void main(String[] args) {
+        int seconds;
+
         var quote1 = CompletableFuture.supplyAsync(() -> {
             System.out.println("Getting a quote from site 1");
             LongTask.Simulate(2407);
@@ -20,15 +22,16 @@ public class Main {
             return "Quote{site='site3', price=108}";
         });
 
-        try {
-            System.out.println(quote1.get());
-            System.out.println(quote2.get());
-            System.out.println(quote3.get());
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        } catch (ExecutionException e) {
-            throw new RuntimeException(e);
-        }
+            quote1.thenAcceptAsync(m ->
+                    System.out.println(m)
+            );
+
+        quote2.thenAcceptAsync(m ->
+                System.out.println(m)
+        );
+        quote3.thenAcceptAsync(m ->
+                System.out.println(m)
+        );
 
     }
 }
