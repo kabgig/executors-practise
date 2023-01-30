@@ -1,19 +1,32 @@
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 public class Main {
     public static void main(String[] args) {
-        var task1 = CompletableFuture.supplyAsync(() -> {
+        var task = CompletableFuture.supplyAsync(() -> {
             LongTask.Simulate();
             return 20;
         });
-        var task2 = CompletableFuture.supplyAsync(() -> {
-            LongTask.Simulate();
-            return 0.9;
-        });
-        var fastest = CompletableFuture.supplyAsync(() -> 0.3);
 
-        CompletableFuture.anyOf(task1, task2, fastest)
-                .thenAccept(System.out::println);
+        Integer res = null;
+        try {
+            res = task.completeOnTimeout(7, 1, TimeUnit.MINUTES).get();
+            System.out.println(res);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
+            var res2 = task.orTimeout(1, TimeUnit.SECONDS).get();
+            System.out.println(res2);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 }
