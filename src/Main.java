@@ -2,18 +2,13 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 public class Main {
+    public static int toFahrenheit(int celsius) {
+        return (int) (celsius * 1.8) + 32;
+    }
+
     public static void main(String[] args) {
-        var weather = CompletableFuture.supplyAsync(() ->{
-                System.out.println("Getting current weather");
-                throw new IllegalStateException();
-        });
-        try {
-           var temperature =  weather.exceptionally(ex -> 1).get();
-            System.out.println(temperature);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        } catch (ExecutionException e) {
-            throw new RuntimeException(e);
-        }
+        var future = CompletableFuture.supplyAsync(() -> 20);
+        future.thenApply(Main::toFahrenheit)
+                .thenAccept(System.out::println);
     }
 }
