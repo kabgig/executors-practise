@@ -1,14 +1,16 @@
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
 public class Main {
-    public static int toFahrenheit(int celsius) {
-        return (int) (celsius * 1.8) + 32;
+    public static CompletableFuture<String> getEmailAsync() {
+        return CompletableFuture.supplyAsync(() -> "email");
+    }
+    public static CompletableFuture<String> getPlaylistAsync (String email){
+        return CompletableFuture.supplyAsync(() -> "playlist");
     }
 
     public static void main(String[] args) {
-        var future = CompletableFuture.supplyAsync(() -> 20);
-        future.thenApply(Main::toFahrenheit)
+        getEmailAsync()
+                .thenCompose(Main::getPlaylistAsync)
                 .thenAccept(System.out::println);
     }
 }
