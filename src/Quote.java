@@ -1,5 +1,3 @@
-import java.util.concurrent.CompletableFuture;
-
 public class Quote {
     private final String site;
     private final int price;
