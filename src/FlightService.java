@@ -13,8 +13,8 @@ public class FlightService {
         public CompletableFuture<Quote> getQuote (String site) {
         return CompletableFuture.supplyAsync(() -> {
             System.out.println("Getting a quote from " + site);
-            LongTask.Simulate();
             var random = new Random();
+            LongTask.Simulate(1000 + random.nextInt(2000));
             var price = 100 + random.nextInt(10);
             return new Quote(site, price);
         });
