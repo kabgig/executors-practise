@@ -3,37 +3,11 @@ import java.util.concurrent.CompletableFuture;
 public class Main {
 
     public static void main(String[] args) {
-        int seconds;
-
-        var quote1 = CompletableFuture.supplyAsync(() -> {
-            System.out.println("Getting a quote from site 1");
-            LongTask.Simulate();
-            return "Quote{site='site1', price=100}";
-        });
-        var quote2 = CompletableFuture.supplyAsync(() -> {
-            System.out.println("Getting a quote from site 2");
-            LongTask.Simulate();
-            return "Quote{site='site2', price=105}";
-        });
-        var quote3 = CompletableFuture.supplyAsync(() -> {
-            System.out.println("Getting a quote from site 3");
-            LongTask.Simulate();
-            return "Quote{site='site3', price=108}";
-        });
-
-        quote1.thenAcceptAsync(m ->
-                System.out.println(m)
-        );
-
-        quote2.thenAcceptAsync(m ->
-                System.out.println(m)
-        );
-        quote3.thenAcceptAsync(m ->
-                System.out.println(m)
-        );
+        var service = new FlightService();
+        service.getQuote("site1").thenAccept(System.out::println);
 
         try {
-            Thread.sleep(5000);
+            Thread.sleep(10_000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
